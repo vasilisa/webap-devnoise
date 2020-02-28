@@ -15,7 +15,7 @@ class Instructions extends React.Component {
     constructor(props) {
         super(props);
 
-        const prolific_id = 'undefined'
+        const prolific_id = 'kids'
 
         var currentDate = new Date();
         var date        = currentDate.getDate();
