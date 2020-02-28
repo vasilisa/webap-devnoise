@@ -1,0 +1,32 @@
+.rocket {
+  width: 55vh;
+  height: 45vh;
+  margin-left: 5vh;
+  margin-right: 5vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  padding-top:5vh;
+  cursor: pointer;    
+}   
+
+.scoretext{
+  font: "Century Gothic", Futura, sans-serif;
+  font-size  : 5vh;
+  margin-top : 14vh;
+  margin-left: 0vh;
+}
+
+
+.robot {
+  width: 35vh;
+  height: 35vh;
+  margin-left: -150vh;
+  margin-right: 5vh;
+  margin-top: -20vh;
+  margin-bottom: 2vh;
+  display:flex;
+}   
+
+
+
+

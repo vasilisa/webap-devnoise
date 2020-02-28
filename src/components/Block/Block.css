@@ -1,0 +1,60 @@
+body, html {
+    height: 100vh;
+  }
+
+.buttonInstructions{
+  width: 10vh;
+  height: 10vh;
+  margin: 0;
+  border-radius: 3vh;
+  font-weight:bold; 
+}
+
+.buttonInstructionsHidden{
+  width: 10vh;
+  height: 10vh;
+  margin: 0;
+  border-radius: 3vh;
+  font-weight:bold; 
+}
+
+.symbolframe{
+  margin-top: -8vh;
+  padding-top: 2vh;
+  display: relative;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+}
+
+.introsymbol2 {
+  width: 30vh;
+  height: 30vh;
+  margin-left: 5vh;
+  margin-right: 5vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  }   
+
+.astro2 {
+  width: 40vh;
+  height: 30vh;
+  margin-left: -30vh;
+  margin-right: 0vh;
+  margin-top: 0vh;
+  margin-bottom: 0vh; 
+  }   
+
+.textbox{
+  font: "Century Gothic", Futura, sans-serif;
+  font-size  : 5vh;
+  margin-top : 5vh;
+  margin-left: 5vh;
+  margin-right: 5vh;
+}
+
+.bold {font-weight: bold; }
+.purple {color: #BC2EBC; }
+.blue {color: #29ABE2;}
+.red {color: #F0373E;}
+

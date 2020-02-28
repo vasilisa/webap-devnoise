@@ -1,0 +1,125 @@
+.introsymbol {
+  width: 20vh;
+  height: 20vh;
+  margin-left: 5vh;
+  margin-right: 5vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh; 
+  }   
+
+.imageContainer{
+margin-top: 5vh;
+margin-left: 125vh;
+}
+
+
+.astro {
+  width: 30vh;
+  height: 30vh;
+
+  }   
+
+.InstructText{
+  font: "Century Gothic", Futura, sans-serif;
+  font-size  : 60%;
+  margin-top : -30vh;
+  margin-left: 3%;
+  border-width: 1px;
+}
+
+.textbox{
+  font: "Century Gothic", Futura, sans-serif;
+  font-size  : 15vh;
+  margin-top : 14%;
+  margin-left: 3%;
+  border-width: 1px;
+}
+
+
+.instructionsButtonContainer{
+  position: center;
+  margin-top: 3vh;
+  margin-left: 2vh;
+  position: relative;
+}
+
+/*
+.buttonInstructions{
+  width: 10vh;
+  height: 10vh;
+  border-radius: 3vh;
+  font-weight:bold; 
+}
+
+.buttonInstructionsHidden{
+  width: 10vh;
+  height: 10vh;
+  border-radius: 3vh;
+  font-weight:bold; 
+}
+*/
+
+.instructionsButtonContainer{
+
+  padding-top : -15vh;
+}
+
+.buttonInstructions{
+  width: 10%;
+  height: 10%;
+  margin: 0 auto;
+  border-radius: 3px;
+  font-weight:bold; 
+
+}
+
+.buttonInstructionsHidden{
+  width: 10%;
+  height: 10%;
+  margin: 0 auto;
+  border-radius: 3px;
+  font-weight:bold; 
+}
+
+.buttonInstructionStart{
+  width: 30%;
+  height: 20%;
+  margin: 0 auto;
+  border-radius: 3px;
+
+}
+
+.buttonInstructionStart{
+  width: 20vh;
+  height: 10vh;
+  margin-top: 0vh;
+  margin-left: -30vh;
+  margin-right: -10vh;
+  border-radius: 3vh;
+
+}
+
+.center {
+  text-align: center; 
+}
+
+.translate {
+  margin-top: 5vh;
+}
+
+.title {
+  font-size: 6vh;
+}
+
+.divider{
+    width:20vh;
+    height:auto;
+    display:inline-block;
+}
+
+.bold { font-weight: bold; }
+.red { color: #FF0000; }
+.blue { color: #326699; }
+.white { color: #fff; }
+
+
