@@ -196,7 +196,7 @@ redirectToSurvey = () => {
 
     const outcome = (this.state.block_info.outcome==='diamond') ? 'rubin': 'diamond'
 
-    const TotalTrial   = (block_number_ ===1)? 10: 56  
+    // const TotalTrial   = (block_number_ ===1)? 10: 56  
 
         
     console.log('const outcome',outcome)
@@ -216,7 +216,7 @@ redirectToSurvey = () => {
           th_reward_2    : Object.keys(data['th_reward_2']).map((key, index) => (data['th_reward_2'][key])),
           position       : Object.keys(data['position']).map((key, index) => (data['position'][key])),
           trial_numb     : 0,
-          TotalTrial     : TotalTrial, // Object.keys(data['reward_1']).length, 
+          TotalTrial     : Object.keys(data['reward_1']).length, 
           outcome        : outcome, 
         }
           
