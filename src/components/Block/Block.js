@@ -276,10 +276,10 @@ render()
     else if ((this.state.participant_info.block_number===0) && (this.state.newblock_frame===false))
     {
       text = <div className='textbox'> 
-                <p>Did you notice that the planet that was giving more diamonds was not the same?</p>
-                <p>At the beginning it was <span class="bold purple"> the purple planet </span> but in the middle of the session it changed, and <span class="bold blue">the blue planet </span> became more rewarding?!</p>
+                <p>Did you notice that the planet that was giving more diamonds was not the same through the game?</p>
+                <p>At the beginning it was <span class="bold blue"> the blue planet </span> but in the middle of the session it changed, and <span class="bold purple">the purple planet</span> became more rewarding?!</p>
                 <p></p>
-                <p> It is important that you payed attention to this in order to win!</p>
+                <p> It is important that you pay attention to these changes in order to win!</p>
                 </div>
       
         return (

@@ -124,7 +124,7 @@ class Instructions extends React.Component {
             </div>;
         }
         else if (this.state.currentInstructionText===2) {
-        mytext = <div className='textbox'> <p></p> <p>You will make choice between two planets.</p> 
+        mytext = <div className='textbox'> <p></p> <p>You will make choices between two planets.</p> 
                 <div className="translate"/>
                 <div className="symbolframe">    
                     <img className="introsymbol"  src={require('../../images/planet_5.png')} alt='introsymbol'/> 
@@ -137,9 +137,9 @@ class Instructions extends React.Component {
         else if (this.state.currentInstructionText===3) {
             mytext = <div className='textbox'> <p></p>
             <p></p>
-            <p>There is always one planet that gives more treasures than the other!</p>
-            <p>But this will change through the game!</p>
-            <p>You should pay attention and try to remember which planet gave more treasures in the past in order to select the right planet!</p>
+            <p>There is always <span class="bold">one planet</span> that gives <span class="bold">more</span> treasures than the other!</p>
+            <p><span class="bold">But this will change through the game!</span></p>
+            <p>You should pay attention and try to remember which planet gave more treasures on several digs in order to select the right planet!</p>
             <p>Sometimes even a good planet could give fewer treasures, and a bad planet could give a lot but you should consider several digs in a row when making your choice!</p>
             </div>; }
 
