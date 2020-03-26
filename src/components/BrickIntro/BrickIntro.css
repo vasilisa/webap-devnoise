@@ -98,6 +98,12 @@
   margin-top:-2vh;
 }
 
+@media (min-width: 769px) {
+  .container_intro {
+    margin: 2.5rem auto;
+  }
+}
+
 @keyframes fadeIn {
   0% {
     transform: scale(1);
