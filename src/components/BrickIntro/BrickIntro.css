@@ -43,7 +43,7 @@
   vertical-align: middle;
 }
 
-.outcome_selected {
+.outcome_selected_intro {
   height: 25vh;
   width: 25vh;
   padding: 1%;
@@ -56,7 +56,7 @@
   margin-top:-1vh;
   }
 
-.outcome_notSelected {
+.outcome_notSelected_intro {
   height: 25vh;
   width: 25vh;
   padding: 1%;
@@ -67,7 +67,7 @@
   opacity: 0;
 }
 
-.selected{
+.selected_intro{
   
   margin-right:2%;
     -moz-box-sizing:border-box;
@@ -90,7 +90,7 @@
   opacity: 0;
 }
 
-.container {
+.container_intro{
   display: flex;
   flex-direction: column;
   position: relative;
