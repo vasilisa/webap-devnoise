@@ -98,7 +98,7 @@
   margin-top:-2vh;
 }
 
-@media (min-width: 769px) {
+/*@media (min-width: 769px) {
   .container_intro {
     margin: 2.5rem auto;
   }
@@ -124,4 +124,4 @@
     transform: scale(1);
     opacity: 0;
   }
-}
+}*/
