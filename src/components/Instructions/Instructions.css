@@ -5,7 +5,8 @@
   margin-right: 5vh;
   margin-top: 2vh;
   margin-bottom: 2vh; 
-  }   
+  }
+
 
 .imageContainer{
 margin-top: 5vh;
@@ -29,12 +30,18 @@ margin-left: 125vh;
 
 .textbox{
   font: "Century Gothic", Futura, sans-serif;
-  font-size  : 15vh;
-  margin-top : 14%;
+  font-size  : 5vh;
+  margin-top : 1vh;
   margin-left: 3%;
   border-width: 1px;
 }
 
+.textboxBricks{
+  font: "Century Gothic", Futura, sans-serif;
+  font-size  : 5vh;
+  margin-top : 1%;
+  margin-left: 3%;
+}
 
 .instructionsButtonContainer{
   position: center;

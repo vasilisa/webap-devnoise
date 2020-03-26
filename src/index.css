@@ -86,3 +86,9 @@ code {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
 }
+
+.bold {font-weight: bold; }
+.purple {color: #BC2EBC; }
+.blue {color: #29ABE2;}
+.red {color: #F0373E;}
+

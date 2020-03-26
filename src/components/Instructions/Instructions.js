@@ -4,7 +4,13 @@ import { Button } from 'react-bootstrap';
 
 import { API_URL } from '../../config';
 import { handleResponse } from '../helpers';
+
+import BrickIntro from '../BrickIntro/BrickIntro.js';
+import queryString from 'query-string';
+
+
 import './Instructions.css';
+
 
 /*
 Instruction component is created when the particpant accepts terms and conditions and proceeds to the experiment. 
@@ -15,33 +21,110 @@ class Instructions extends React.Component {
     constructor(props) {
         super(props);
 
-        const prolific_id = 'kids'
+        // Get the URL from PROLIFIC and PROLIFIC_ID for the USER 
+        let url    = this.props.location.search;
+        let params = queryString.parse(url);
+
+        const prolific_id = (params['userid']=== undefined ? 'undefined' : params['userid']) 
+
+        console.log(prolific_id) 
 
         var currentDate = new Date();
         var date        = currentDate.getDate();
         var month       = currentDate.getMonth(); //Be careful! January is 0 not 1
         var year        = currentDate.getFullYear();
         var dateString  = date + "-" +(month + 1) + "-" + year;
-    
+        
+        // Define intitial left and right symbols: 
+
+        const current_symbols = {0: require('../../images/planet_5.png'),  
+                                1: require('../../images/planet_6.png')}
+
+        const required_pool_outcome    = {0: require('../../images/rubin.png'),  
+                                          1: require('../../images/rubin.png')}
+
         this.state = {
             date: dateString,
             participant_id : 1, // default
             game_id : '',       // to be determined 
             block_number : 0, 
             currentInstructionText: 1,
-            TotalBlock: 2, // 1 training short and 1 full block   
+            TotalBlock: 3,      // 1 training short and 2 full block   
             newblock_frame : true, 
             readyToProceed: false,
             redirect: false,
-            prolific_id : prolific_id 
+            prolific_id      : prolific_id, // this will be a individual id not prolific one  
+            current_symbols  : current_symbols, 
+            feedback         : Array(2).fill(null),
+            noFeedback       : ['null', 'null'],
+            symbolHighlight  : ['null', 'null'],
+            current_rewards  : Array(Math.floor((Math.random() * 100) + 1), Math.floor((Math.random() * 10) + 1)),
+            clickable        : true,
+            current_outcomes :required_pool_outcome, 
+            text1: 'Try clicking a planet!',
+            text2: '',
+            reward: ''
         }
 
     this.handleInstructionsLocal = this.handleInstructionsLocal.bind(this) // bind the method to avoid error on frames collapsed
     this.fetchParticipantInfo.bind(this); 
     this.fetchParticipantGameId.bind(this); 
+    this.renderBrick.bind(this); 
+    this.handleClick.bind(this); 
        
     }; 
 
+    renderBrick(i) {
+    return (   
+      <BrickIntro
+        symbol          = {this.state.current_symbols[i]}
+        feedback        = {this.state.feedback[i]}
+        outcome         = {this.state.current_outcomes[i]}
+        noFeedback      = {this.state.noFeedback[i]}
+        symbolHighlight = {this.state.symbolHighlight[i]}
+        symbolClicked   = {() => this.handleClick(i)}
+        text1           = {this.state.text1}
+        text2           = {this.state.text2}
+      />
+    );
+  }
+
+
+  handleClick(i) {
+    // create feedback array here randomly drawn between 1 and 99 
+    
+    if (this.state.clickable) {
+
+      const feedback        = this.state.feedback.slice();
+      const noFeedback      = this.state.noFeedback.slice(); // change here 
+      const symbolHighlight = this.state.symbolHighlight.slice();
+
+      
+    // Partial feedback
+      feedback[i]          = this.state.current_rewards[i]  
+      feedback[1 - i]      = null // unchosen option this will work for the partial feedback
+      noFeedback[1 - i]    = 'null'
+      noFeedback[i]        = ''
+      symbolHighlight[i]   = ''
+      symbolHighlight[1-i] = 'null'
+
+      const chosen_r    = feedback[i]
+
+      console.log('Chosen reward',chosen_r)
+
+    
+    this.setState({        
+        feedback   : feedback,
+        clickable  : false,
+        noFeedback : noFeedback,
+        symbolHighlight: symbolHighlight,
+        text1: '',
+        text2: 'Well done!',
+        reward: chosen_r
+      })
+    }
+    }
+  
     // Mount the component to call the BACKEND and GET the information
     componentWillMount() {
     // document.body.style.background = "fff";  
@@ -89,18 +172,24 @@ class Instructions extends React.Component {
     
         if(whichButton==="left" && curText > 1){
         this.setState({currentInstructionText: curText-1,
+            clickable: true,
+            text1: 'Try clicking a planet!',
+            feedback         : Array(2).fill(null),
+            noFeedback       : ['null', 'null'],
+            symbolHighlight  : ['null', 'null'],
+            current_rewards  : Array(Math.floor((Math.random() * 99) + 2), Math.floor((Math.random() * 99) + 2)),
             readyToProceed: false});
         }
-        else if(whichButton==="right" && curText <= 3){
+        else if(whichButton==="right" && curText <= 5){
       
         this.setState({currentInstructionText: curText+1,
         readyToProceed: false});
         }
-        else if(whichButton==="right" && this.state.currentInstructionText===4){
+        else if(whichButton==="right" && this.state.currentInstructionText===6){
             this.setState({readyToProceed: true})
             console.log(this.state.readyToProceed)
         }
-        else if(whichButton==="left" && this.state.currentInstructionText===3){
+        else if(whichButton==="left" && this.state.currentInstructionText===5){
             this.setState({readyToProceed: false,
                           currentInstructionText: curText+1})
         }; 
@@ -118,32 +207,50 @@ class Instructions extends React.Component {
         let mytext
         if (this.state.currentInstructionText===1) {
             mytext = <div className='textbox'> <p></p>
-            <p> Wellcome on board of the space explorer!</p>
-            <p><span class="bold">Your goal is to help us find the planet with more treasures!</span></p>
-            <p> At the end of the game, you will receive a score telling you how well you did.</p>
+            <p> Wellcome on board the space explorer!</p>
+            <p><span className="bold">You are on a mission to find magical <span className="bold red">rubies</span> !</span></p>
+            <p>Your goal is to help us find which planet has more <span className="bold red">rubies</span> on it!</p>
+            <p> You'll find out how well you did at the end of the game!</p>
             </div>;
         }
         else if (this.state.currentInstructionText===2) {
-        mytext = <div className='textbox'> <p></p> <p>You will make choices between two planets.</p> 
+        mytext = <div className='textbox'> <p></p> <p>There will be two planets to pick from.</p> 
                 <div className="translate"/>
-                <div className="symbolframe">    
-                    <img className="introsymbol"  src={require('../../images/planet_5.png')} alt='introsymbol'/> 
-                    <img className="introsymbol"  src={require('../../images/planet_6.png')} alt='introsymbol'/> 
-                </div>
-                <p>After each choice you will see how many treasures (between 1 and 99) you managed to dig from the planet!</p>
+                <p>Each time you pick a planet you will see how many rubies you got. </p>
+                <p>You can get between 1 and 99 <span class="bold red">rubies</span> at once.</p>
                 </div>
             }
 
         else if (this.state.currentInstructionText===3) {
+        mytext = <div> 
+                    <div  className="allBricks">
+                    <span className='brick1'>  {this.renderBrick(0)} </span>
+                    <span className='brick2'>  {this.renderBrick(1)} </span>
+                    </div>
+                </div>
+             }
+
+        else if (this.state.currentInstructionText===4) {
+
             mytext = <div className='textbox'> <p></p>
             <p></p>
-            <p>There is always <span class="bold">one planet</span> that gives <span class="bold">more</span> treasures than the other!</p>
-            <p><span class="bold">But this will change through the game!</span></p>
-            <p>You should pay attention and try to remember which planet gave more treasures on several digs in order to select the right planet!</p>
-            <p>Sometimes even a good planet could give fewer treasures, and a bad planet could give a lot but you should consider several digs in a row when making your choice!</p>
+            <p>You just won <span class="bold red">{this.state.reward} rubies!</span></p>
+            <p>There will <span class="bold">always</span> be <span class="bold">one planet</span> that gives you <span class="bold">more</span> rubies than the other planet.</p>
+            <p>However, it won't be the same planet during the whole game!</p>
+            <p>For example, sometimes the <span class="bold blue">blue planet</span> will be better but sometimes the <span class="bold purple">purple planet</span> will be better, it's up to you to find out!</p>
             </div>; }
 
-        else if(this.state.currentInstructionText===4) {
+        else if (this.state.currentInstructionText===5) {
+            mytext = <div className='textbox'>
+            <p></p>
+            <p><span class="bold">Attention!</span></p>
+            <p>Occasionally the space digger will break down and even though the planet has lots of rubies on it, 
+               you might not get that many out!</p>
+            <p>This means you will need <span class="bold">to remember</span> which planet gives you the most rubies overall.</p> 
+            </div>
+        }
+
+        else if(this.state.currentInstructionText===6) {
             mytext = <div className='textbox'> <p></p>
             <p></p>
             <p>Let's do some practice!</p>
@@ -160,28 +267,28 @@ class Instructions extends React.Component {
             <div className='InstructText'>
             <center>
                 <div className='title'>
-                    <p><span class="bold">INSTRUCTIONS</span></p>
+                    <p><span className="bold">INSTRUCTIONS</span></p>
                 </div>
                 <div className="instructionsButtonContainer">
 
                     {this.state.currentInstructionText > 1 ? // id helps get which button was clicked to handle the 
 
                         <Button id="left" className="buttonInstructions" onClick={this.handleInstructionsLocal}> 
-                            <span class="bold">&#8592;</span>
+                            <span className="bold">&#8592;</span>
                         </Button>
                         :
                         <Button id="left" className="buttonInstructionsHidden">
-                            <span class="bold">&#8592;</span>
+                            <span className="bold">&#8592;</span>
                         </Button>
                     }
 
-                    {this.state.currentInstructionText <= 4 ?
+                    {this.state.currentInstructionText <= 6 ?
                         <Button id="right" className="buttonInstructions" onClick={this.handleInstructionsLocal}>
-                            <span class="bold">&#8594;</span>
+                            <span className="bold">&#8594;</span>
                         </Button>
                         :
                         <Button id="right" className="buttonInstructionsHidden">
-                            <span class="bold">&#8594;</span>
+                            <span className="bold">&#8594;</span>
                         </Button>
                     }
                     </div>

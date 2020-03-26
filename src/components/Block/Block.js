@@ -94,42 +94,12 @@ class Block extends React.Component {
               const bonus = data['bonus']
               // console.log(bonus)
 
-              this.setState({
-                  score : bonus,
-                  loading : false,
-                  load_bonus: true,
-                  newblock_frame : true,
-                  participant_info : {...this.state.participant_info, block_number:this.state.participant_info.TotalBlock+1}
-                });
-            })
-            .catch((error) => {
-                this.setState({ error : error.errorMessage, loading: false, load_bonus: false });
-                 });
-}
-}
-
-redirectToScore() {
-if (this.state.load_bonus === false) {
-  this.fetchScore() 
-}
-  
-else if  (this.state.load_bonus === true){
-   return (
-        <Score
-          score      = {this.state.score}  
-          onClicked  = {this.redirectToSurvey}
-        />
-      );}
- }
-
-redirectToSurvey = () => {
-
-  // Post the bonus amount together with the prolific id and participant ids in the ParticipantsDataBonus table: 
-  let body = { 
+              
+    let body = { 
               'participant_id'  : this.state.participant_info.participant_id,
               'prolific_id'     : this.state.participant_info.prolific_id,
               'date'            : this.state.participant_info.date,
-              'bonus'           : this.state.score}
+              'bonus'           : bonus}
               
     // console.log(body) 
     fetch(`${API_URL}/participants_data_bonus/create/`+this.state.participant_info.participant_id +'/'+this.state.participant_info.prolific_id, {
@@ -139,10 +109,44 @@ redirectToSurvey = () => {
          'Content-Type': 'application/json',
        },
        body: JSON.stringify(body)
-     })
-    this.props.history.push({
-      pathname: `/`})
+     });
+
+     this.setState({
+                  score : bonus,
+                  loading : false,
+                  load_bonus: true,
+                  newblock_frame : true,
+                  participant_info : {...this.state.participant_info, block_number:this.state.participant_info.TotalBlock+1}
+                });
+            }) 
+
+    .catch((error) => {
+      this.setState({ error : error.errorMessage, loading: false, load_bonus: false });
+      });
+
+    
+  }
+}
+
+redirectToScore() {
+if (this.state.load_bonus === false) {
+  this.fetchScore() 
+}
+  
+else if  (this.state.load_bonus === true){
+  return (
+        <Score
+          score      = {this.state.score}  
+          onClicked  = {this.redirectToExternal} 
+        />
+      );
+  }
+}
+
+  redirectToExternal() {
+    window.location.href = 'https://devcompsy.org/team/';
   } 
+  
   componentDidMount() {  
   this._isMounted = true;
   this._isMounted && this.fetchBlock(this.state.participant_info.game_id,this.state.participant_info.block_number+1);
@@ -194,10 +198,7 @@ redirectToSurvey = () => {
 // This is to get the data for a specific block from the Back 
   fetchBlock(game_id_,block_number_) {
 
-    const outcome = (this.state.block_info.outcome==='diamond') ? 'rubin': 'diamond'
-
-    // const TotalTrial   = (block_number_ ===1)? 10: 56  
-
+    const outcome      = (this.state.block_info.outcome==='diamond') ? 'rubin': 'diamond'
         
     console.log('const outcome',outcome)
 
@@ -276,8 +277,8 @@ render()
     else if ((this.state.participant_info.block_number===0) && (this.state.newblock_frame===false))
     {
       text = <div className='textbox'> 
-                <p>Did you notice that the planet that was giving more diamonds was not the same through the game?</p>
-                <p>At the beginning it was <span class="bold blue"> the blue planet </span> but in the middle of the session it changed, and <span class="bold purple">the purple planet</span> became more rewarding?!</p>
+                <p>Did you notice that the planet that was giving more <span className="bold red">rubies</span> was not the same?</p>
+                <p>At the beginning it was the <span className="bold blue">blue planet</span> but then it changed, and the <span className="bold purple">purple planet </span> had more <span className="bold red">rubies</span>?!</p>
                 <p></p>
                 <p> It is important that you pay attention to these changes in order to win!</p>
                 </div>
@@ -298,9 +299,7 @@ render()
               {text}           
             </div>
             <center>
-              <Button className="buttonInstructions" onClick={()=>this.redirectToTarget()}>
-              &#8594;
-              </Button>
+              <img className="rocket" src={require('../../images/rocket3.png')} onClick={()=>this.redirectToTarget()} alt='rocket'/>
             </center>
           </div>
           </center>
@@ -309,10 +308,10 @@ render()
     }
     else if ((this.state.participant_info.block_number===1) && (this.state.newblock_frame)) // TRUE 
     {
-      text = <div className='textbox'><p>You finished the training!</p>
+      text = <div className='textbox'><p>Great! You finished the training!</p>
                   <p></p>
                   <p>Let's start the real game now!</p>
-                  <p>Finding which planet gives more <span class="bold red">rubins</span> will be harder now, so pay attention!</p></div>
+                  <p>Finding which planet gives more <span className="bold red">rubies</span> will be harder now, so pay attention!</p></div>
       return (
       <CSSTransitionGroup
       className="container"
@@ -330,7 +329,8 @@ render()
         <center> 
         <div>
           <div className="textbox">
-            {text}  <div className="translate"/>
+            {text}  
+          <div className="translate"/>
           </div>
           <center>
             <Button className="buttonInstructions" onClick={()=>this.redirectToTarget()}>
@@ -342,13 +342,53 @@ render()
         </div>
         </CSSTransitionGroup>);
     }
+
+    else if ((this.state.participant_info.block_number===1) && (this.state.newblock_frame===false)){  // adjust here for the final score 
+      
+      text = <div className='symbolframe'><p>Let's play again!</p>
+              <p>Remember that the planet which gives more <span className="bold red">rubies</span> can change!</p>
+            </div>
+      
+        return(
+          <CSSTransitionGroup
+            className="container"
+            component="div"
+            transitionName="fade"
+            transitionEnterTimeout={800}
+            transitionLeaveTimeout={500}
+            transitionAppear
+            transitionAppearTimeout={500}>
+          <div>
+            <img className="robot2" src={require('../../images/brainzy2.png')} alt='astro'/>
+            <center> 
+            <div>
+            <div className="textbox2">
+              {text}  
+            </div>
+            <center>
+              <img className="rocket" src={require('../../images/rocket3.png')} onClick={()=>this.redirectToTarget()} alt='rocket'/>
+            </center>
+        </div>
+        </center>
+        </div>
+        </CSSTransitionGroup>);
+      }
+
+    
+
+    else if ((this.state.participant_info.block_number===2) && (this.state.newblock_frame===true)){
+       return(
+          <div>{setTimeout(()=>this.redirectToTarget(),800)}</div>
+        ) 
+      }
+
     else if ((this.state.participant_info.block_number===this.state.participant_info.TotalBlock+1) && (this.state.load_bonus===true))
     {
       return(
         <div>{this.redirectToScore()}</div>
         )
     }
-    else if ((this.state.participant_info.block_number===1) && (this.state.newblock_frame===false))
+    else if ((this.state.participant_info.block_number===2) && (this.state.newblock_frame===false))
     {
       return(
         <div>{setTimeout(()=>this.redirectToScore(),800)}</div>

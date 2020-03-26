@@ -31,11 +31,11 @@ class Board extends React.Component {
     current_symbols[1]    = pool_symbols[2-block_info.position[0]] // 
 
     if (block_info.outcome==="diamond") {
-      current_outcomes[0]   = pool_outcomes[0] // duplicate 
-      current_outcomes[1]   = pool_outcomes[0]
+      current_outcomes[0]   = pool_outcomes[1] // duplicate 
+      current_outcomes[1]   = pool_outcomes[1]
     }
     else {
-      current_outcomes[0]   = pool_outcomes[1] // duplicate 
+      current_outcomes[0]   = pool_outcomes[1] // rubin
       current_outcomes[1]   = pool_outcomes[1]
     }
     
@@ -173,11 +173,14 @@ class Board extends React.Component {
       // console.log('Chosen reward theoretical',chosen_r_th)
       // console.log('Unchosen reward theoretical',unchosen_r_th)
 
-      // console.log('Chosen reward',chosen_r)
-      // console.log('Unchosen reward',unchosen_r)
+      console.log('Chosen reward',chosen_r)
+      console.log('Unchosen reward',unchosen_r)
 
-      // console.log('Observed chosen feedback',feedback[i])
-      // console.log('Observed unchosen feedback',feedback[1-i])
+      console.log('Observed chosen feedback',feedback[i])
+      console.log('Observed unchosen feedback',feedback[1-i])
+
+      console.log('Chosen symbol',chosen_symbol) 
+      
       
       let block_perf = this.state.block_perf + ((chosen_r_th-unchosen_r_th)/this.state.block_info.position.length) 
 

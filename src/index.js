@@ -14,7 +14,7 @@ const RefreshRoute = ({ component: Component, isDataAvailable, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-       (props.location.state!=undefined) ? ( // if props location state is defined return page, else return to intro
+       (props.location.state!==undefined) ? ( // if props location state is defined return page, else return to intro
         <Component {...props} />
       ) : (
         <Redirect

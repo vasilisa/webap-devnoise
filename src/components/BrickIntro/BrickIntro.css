@@ -1,0 +1,121 @@
+.textIntro{
+  font: "Century Gothic", Futura, sans-serif;
+  font-size  : 5vh;
+  margin-top:-1vh;
+}
+
+
+.praise_notSelected{
+  font: "Century Gothic", Futura, sans-serif;
+  font-size  : 5vh;
+  margin-top:-1vh;
+  opacity:0;
+}
+
+.praise_selected{
+  font: "Century Gothic", Futura, sans-serif;
+  margin-top:-1vh;
+  font-size  : 5vh;
+}
+
+
+.symbol {
+  width: 30vh;
+  height: 30vh;
+  margin-right:2%;
+  margin-top: 0vh;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box; 
+}
+
+.square {
+  height: 30vh; /*50%*/
+  width: 30vh;
+  padding: 1vh;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: -45vh;
+  margin-bottom: 25%; 
+  font: 12vh "Century Gothic", Futura, sans-serif;
+  color: black;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.outcome_selected {
+  height: 25vh;
+  width: 25vh;
+  padding: 1%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5vh;
+  margin-bottom: 25%;
+  font: "Century Gothic", Futura, sans-serif;
+  font-size  : 3vh;
+  margin-top:-1vh;
+  }
+
+.outcome_notSelected {
+  height: 25vh;
+  width: 25vh;
+  padding: 1%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5vh;
+  margin-bottom: 25%; 
+  opacity: 0;
+}
+
+.selected{
+  
+  margin-right:2%;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;    
+  border: 0vh solid green;
+  border-radius: 1vh;
+  padding: 2vh;
+
+}
+
+.feedback {
+  width: 90px;
+  height: 90px;
+  margin-top:20px;    
+  transition-delay: .0s;
+}
+
+.feedbacknull {
+  opacity: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  margin-top:-2vh;
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    transform: scale(1);  
+    opacity: 1;  
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
