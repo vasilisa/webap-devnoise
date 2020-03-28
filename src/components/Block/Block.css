@@ -53,6 +53,15 @@ body, html {
   margin-right: 5vh;
 }
 
+
+.textbox3{
+  font: "Century Gothic", Futura, sans-serif;
+  font-size  : 5vh;
+  margin-top : 0vh;
+  margin-left: 5vh;
+  margin-right: 5vh;
+}
+
 .rocket {
   width: 50vh;
   height: 40vh;

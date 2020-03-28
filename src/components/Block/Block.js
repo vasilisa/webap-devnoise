@@ -8,11 +8,17 @@ import { CSSTransitionGroup } from 'react-transition-group';
 
 import Score from '../Score/Score';
 import './Block.css'
+import BrickTest from '../BrickTest/BrickTest'; 
+
 
 class Block extends React.Component {
   constructor(props){
     super(props);
     const participant_info = this.props.location.state.participant_info
+
+    const current_symbols = {0: require('../../images/planet_5.png'),  
+                                1: require('../../images/planet_6.png')}
+
     
     const block_info = {
 
@@ -35,13 +41,20 @@ class Block extends React.Component {
       pool_outcomes    : {}, 
       score : -1,
       load_bonus: false,
+      restart: false, 
+      textfeedback: '',
+      current_symbols: current_symbols,
+      symbolHighlight  : ['null', 'null'],
+      clickable        : true,
+            
     }
 
     this.fetchBlock.bind(this);
     this.fetchSymbols.bind(this);
     this.redirectToScore.bind(this); 
     this._isMounted = false;
-    this._handleGoBack.bind(this);   
+    this._handleGoBack.bind(this);
+    this.renderBrickTest.bind(this);    
   }
 
     
@@ -175,8 +188,10 @@ else if  (this.state.load_bonus === true){
       .then((data) => {
 
         const required_pool_of_symbols = Object.keys(data['symbols']).map((key, index) => (require('../../images/' + data['symbols'][key])))
+        
+        console.log(required_pool_of_symbols)
         // const required_pool_of_symbols = Object.keys(data['symbols']).map((key, index) => (require('../../images/' + 'planet_'+[key]+'.png')))
-        const required_pool_outcome    = {0: require('../../images/diamond.png'),  
+        const required_pool_outcome    = {0: require('../../images/rubin.png'),  
                                           1: require('../../images/rubin.png')}
 
         console.log(required_pool_outcome)
@@ -198,10 +213,8 @@ else if  (this.state.load_bonus === true){
 // This is to get the data for a specific block from the Back 
   fetchBlock(game_id_,block_number_) {
 
-    const outcome      = (this.state.block_info.outcome==='diamond') ? 'rubin': 'diamond'
+    const outcome      = 'rubin' // (this.state.block_info.outcome==='diamond') ? 'rubin': 'diamond'
         
-    console.log('const outcome',outcome)
-
     this.setState({ loading: true });
     const fetchResult = fetch(`${API_URL}/game_blocks/`+game_id_+'/'+block_number_)
       .then(handleResponse)
@@ -234,17 +247,49 @@ else if  (this.state.load_bonus === true){
     return response
   }
 
+renderBrickTest(i) {
+    return (   
+      <BrickTest
+        symbol          = {this.state.current_symbols[i]}
+        symbolHighlight = {this.state.symbolHighlight[i]}
+        symbolClicked   = {() => this.handleClick(i)}
+      />
+    );
+  }
+ 
 
+ handleClick(i) {
+    // create feedback array here randomly drawn between 1 and 99 
+    
+    if (this.state.clickable) {
+
+      const symbolHighlight = this.state.symbolHighlight.slice();
+
+    if (i==0) {
+      var textfeedback = 'Correct! You are right!'
+    }
+
+    else if (i==1) {
+      var textfeedback = 'Ooops, you are wrong!'
+    }
+
+      symbolHighlight[i]   = ''
+      symbolHighlight[1-i] = 'null'
+
+    this.setState({        
+        clickable: false,
+        symbolHighlight: symbolHighlight,
+        textfeedback: textfeedback,
+        restart: true, 
+      })
+    }
+}
+ 
 render()
   { 
     let text
-    if ((this.state.participant_info.block_number === 0) && (this.state.newblock_frame)) // training 
+    if ((this.state.participant_info.block_number === 0) && (this.state.newblock_frame)) // first before the reversal 
     { 
-      text = <div className='symbolframe'> 
-                <img className="introsymbol2"  src={require('../../images/planet_5.png')} alt='introsymbol' /> 
-                <img className="introsymbol2"  src={require('../../images/planet_6.png')} alt='introsymbol' /> 
-            </div>
-
     return (
       <CSSTransitionGroup
       className="container"
@@ -260,41 +305,65 @@ render()
         
       <center> 
       <div className="instructionsButtonContainer">
-        <div>
-          {text}           
-        </div> 
         <center>
-          <Button className="buttonInstructions" onClick={()=>this.redirectToTarget()}>
-            &#8594;
-          </Button>
+              <img className="rocket" src={require('../../images/rocket4.png')} onClick={()=>this.redirectToTarget()} alt='rocket'/>
         </center>
       </div>
       </center> 
       </div>
       </CSSTransitionGroup>);
     } 
-
-    else if ((this.state.participant_info.block_number===0) && (this.state.newblock_frame===false))
+    else if ((this.state.participant_info.block_number===0) && (this.state.newblock_frame===false) && (this.state.restart===false)) // at the end of first training
     {
-      text = <div className='textbox'> 
-                <p>Did you notice that the planet that was giving more <span className="bold red">rubies</span> was not the same?</p>
-                <p>At the beginning it was the <span className="bold blue">blue planet</span> but then it changed, and the <span className="bold purple">purple planet </span> had more <span className="bold red">rubies</span>?!</p>
-                <p></p>
-                <p> It is important that you pay attention to these changes in order to win!</p>
+      text = <div className='textbox3'> 
+                <p>Did you find which planet </p>
+                <p>had more <span className='bold red'>rubies</span> on it so far?</p>
+                <div className="allBricks">
+                  <span className='brick1Test'>{this.renderBrickTest(0)}</span>
+                  <span className='brick2Test'>{this.renderBrickTest(1)}</span>
                 </div>
-      
-        return (
-          <CSSTransitionGroup
-      className="container"
-      component="div"
-      transitionName="fade"
-      transitionEnterTimeout={800}
-      transitionLeaveTimeout={500}
-      transitionAppear
-      transitionAppearTimeout={500}>
+              </div>
+
+      return (
+        <CSSTransitionGroup
+        className="container"
+        component="div"
+        transitionName="fade"
+        transitionEnterTimeout={800}
+        transitionLeaveTimeout={500}
+        transitionAppear
+        transitionAppearTimeout={500}>
           <div>
           <center> 
           <div className="instructionsButtonContainer">
+            <div>
+              {text}           
+            </div>
+          </div>
+          </center>
+          </div>
+          </CSSTransitionGroup>);
+    
+    }
+    else if ((this.state.participant_info.block_number===0) && (this.state.newblock_frame===false) && (this.state.restart===true)) // at the end of first training
+    {
+      text = <div className='textbox'>
+              {this.state.textfeedback}
+              <p>It was the <span className="bold blue">blue planet</span> !</p>
+             </div>
+
+        return (
+          <CSSTransitionGroup
+            className="container"
+            component="div"
+            transitionName="fade"
+            transitionEnterTimeout={800}
+            transitionLeaveTimeout={500}
+            transitionAppear
+            transitionAppearTimeout={500}>
+            <div>
+            <center> 
+                <div className="instructionsButtonContainer">
             <div>
               {text}           
             </div>
@@ -306,7 +375,71 @@ render()
           </div>
           </CSSTransitionGroup>);
     }
-    else if ((this.state.participant_info.block_number===1) && (this.state.newblock_frame)) // TRUE 
+      
+    else if ((this.state.participant_info.block_number===1) && (this.state.newblock_frame===true) && (this.state.restart===true))
+      {
+      text = <div className='textbox'>
+              <p>Now on this will change</p> 
+              <p> and the <span className="bold purple">purple planet</span> will have more <span className='bold red'>rubies</span>!</p>
+              <p>Try to dig from both planets and see when it happens!</p> 
+             </div>
+
+        return (
+          <CSSTransitionGroup
+            className="container"
+            component="div"
+            transitionName="fade"
+            transitionEnterTimeout={800}
+            transitionLeaveTimeout={500}
+            transitionAppear
+            transitionAppearTimeout={500}>
+            <div>
+            <center> 
+                <div className="instructionsButtonContainer">
+            <div>
+              {text}           
+            </div>
+            <center>
+              <img className="rocket" src={require('../../images/rocket3.png')} onClick={()=>this.redirectToTarget()} alt='rocket'/>
+            </center>
+          </div>
+          </center>
+          </div>
+          </CSSTransitionGroup>);
+    }
+    else if ((this.state.participant_info.block_number===1) && (this.state.newblock_frame===false))
+    
+    {
+      text = <div className='textbox'>
+                <p>Did you notice that the <span className="bold purple">purple planet</span> had more <span className="bold red">rubies</span> this time?</p>
+                <p>In the real game we won't tell you when the planet that has more <span className="bold red">rubies</span> on it will change!</p> 
+                <p> It is important that you pay attention to these changes in order to win!</p>
+                </div>
+      
+        return (
+          <CSSTransitionGroup
+            className="container"
+            component="div"
+            transitionName="fade"
+            transitionEnterTimeout={800}
+            transitionLeaveTimeout={500}
+            transitionAppear
+            transitionAppearTimeout={500}>
+            <div>
+            <center> 
+                <div className="instructionsButtonContainer">
+            <div>
+              {text}           
+            </div>
+            <center>
+              <img className="rocket" src={require('../../images/rocket3.png')} onClick={()=>this.redirectToTarget()} alt='rocket'/>
+            </center>
+          </div>
+          </center>
+          </div>
+          </CSSTransitionGroup>);
+    }
+    else if ((this.state.participant_info.block_number===2) && (this.state.newblock_frame)) // TRUE 
     {
       text = <div className='textbox'><p>Great! You finished the training!</p>
                   <p></p>
@@ -343,7 +476,7 @@ render()
         </CSSTransitionGroup>);
     }
 
-    else if ((this.state.participant_info.block_number===1) && (this.state.newblock_frame===false)){  // adjust here for the final score 
+    else if ((this.state.participant_info.block_number===2) && (this.state.newblock_frame===false)){  // adjust here for the final score 
       
       text = <div className='symbolframe'><p>Let's play again!</p>
               <p>Remember that the planet which gives more <span className="bold red">rubies</span> can change!</p>
@@ -374,9 +507,7 @@ render()
         </CSSTransitionGroup>);
       }
 
-    
-
-    else if ((this.state.participant_info.block_number===2) && (this.state.newblock_frame===true)){
+    else if ((this.state.participant_info.block_number===3) && (this.state.newblock_frame===true)){
        return(
           <div>{setTimeout(()=>this.redirectToTarget(),800)}</div>
         ) 
@@ -388,7 +519,7 @@ render()
         <div>{this.redirectToScore()}</div>
         )
     }
-    else if ((this.state.participant_info.block_number===2) && (this.state.newblock_frame===false))
+    else if ((this.state.participant_info.block_number===3) && (this.state.newblock_frame===false))
     {
       return(
         <div>{setTimeout(()=>this.redirectToScore(),800)}</div>

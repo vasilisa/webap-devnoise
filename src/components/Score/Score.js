@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Score.css';
+import { Button } from 'react-bootstrap';
+
 
 function Score(props) {
 
- // console.log(props.score) 
-
- let text 
+let text 
     
       if (props.score==='3.0') {
 
@@ -24,8 +24,12 @@ function Score(props) {
           </div>
         </div>  
         <div>
-            <img className="robot" src={require('../../images/brainzy3.png')} onClick={()=>props.onClicked()} alt='robot'/>
+            <img className="robot" src={require('../../images/brainzy3.png')} alt='robot'/>
         </div>
+        <div>
+          <Button className="buttonFinish" onClick={()=>props.onClicked()} alt='robot'>Finish</Button>
+        </div>
+      
         </center>
         </div>
         );
@@ -47,9 +51,12 @@ function Score(props) {
           </div>
         </div>
         <div>
-            <img className="robot" src={require('../../images/brainzy3.png')} onClick={()=>props.onClicked()} alt='robot'/>
+            <img className="robot" src={require('../../images/brainzy3.png')} alt='robot'/>
         </div>
         </center>
+        <div>
+            <Button className="buttonFinish" onClick={()=>props.onClicked()} alt='robot'>Finish</Button>
+        </div>
       </div>
         );
     }
@@ -69,7 +76,10 @@ function Score(props) {
           </div>
         </div>  
         <div>
-            <img className="robot" src={require('../../images/brainzy3.png')} onClick={()=>props.onClicked()} alt='robot'/>
+            <img className="robot" src={require('../../images/brainzy3.png')} alt='robot'/>
+        </div>
+        <div>
+            <Button className="buttonFinish" onClick={()=>props.onClicked()} alt='robot'>Finish</Button>
         </div>
         </center>
         </div>);

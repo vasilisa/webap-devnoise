@@ -15,7 +15,20 @@
   margin-bottom: 2vh;
   display:flex;
   cursor: pointer; 
-}   
+}
+
+.buttonFinish{
+  width: 20vh;
+  height: 12vh;
+  font-size: 5vh; 
+  position: center;
+  margin-top: -5vh;
+  margin-left: -5vh;
+  position: relative;
+  border-radius: 3vh;
+  font-weight:bold; 
+}
+   
 
 .bold {font-weight: bold; }
 .purple {color: #BC2EBC; }

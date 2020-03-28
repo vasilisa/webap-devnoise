@@ -49,7 +49,7 @@ class Instructions extends React.Component {
             game_id : '',       // to be determined 
             block_number : 0, 
             currentInstructionText: 1,
-            TotalBlock: 3,      // 1 training short and 2 full block   
+            TotalBlock: 4,      // 2 training short blocks and 2 full block   
             newblock_frame : true, 
             readyToProceed: false,
             redirect: false,
@@ -63,7 +63,7 @@ class Instructions extends React.Component {
             current_outcomes :required_pool_outcome, 
             text1: 'Try clicking a planet!',
             text2: '',
-            reward: ''
+            reward: '',
         }
 
     this.handleInstructionsLocal = this.handleInstructionsLocal.bind(this) // bind the method to avoid error on frames collapsed
@@ -177,7 +177,7 @@ class Instructions extends React.Component {
             feedback         : Array(2).fill(null),
             noFeedback       : ['null', 'null'],
             symbolHighlight  : ['null', 'null'],
-            current_rewards  : Array(Math.floor((Math.random() * 99) + 2), Math.floor((Math.random() * 99) + 2)),
+            current_rewards  : Array(Math.floor((Math.random() * 90) + 3), Math.floor((Math.random() * 90) + 3)),
             readyToProceed: false});
         }
         else if(whichButton==="right" && curText <= 5){
@@ -207,16 +207,17 @@ class Instructions extends React.Component {
         let mytext
         if (this.state.currentInstructionText===1) {
             mytext = <div className='textbox'> <p></p>
-            <p> Wellcome on board the space explorer!</p>
-            <p><span className="bold">You are on a mission to find magical <span className="bold red">rubies</span> !</span></p>
-            <p>Your goal is to help us find which planet has more <span className="bold red">rubies</span> on it!</p>
-            <p> You'll find out how well you did at the end of the game!</p>
+            <p> Wellcome on board of the space explorer!</p>
+            <p>You are on a mission to find magical <span className="bold red">rubies</span> !</p>
+            <p>Your goal is to help us find out which planet has <span className="bold">more</span> <span className="bold red">rubies</span> on it!</p>
+            <p> We will tell you how well you did at the end of the game!</p>
             </div>;
         }
         else if (this.state.currentInstructionText===2) {
         mytext = <div className='textbox'> <p></p> <p>There will be two planets to pick from.</p> 
                 <div className="translate"/>
-                <p>Each time you pick a planet you will see how many rubies you got. </p>
+                <p>Each time you pick a planet,</p> 
+                <p>the space digger will show how many <span className="bold red">rubies</span> you got.</p>
                 <p>You can get between 1 and 99 <span class="bold red">rubies</span> at once.</p>
                 </div>
             }
@@ -235,18 +236,22 @@ class Instructions extends React.Component {
             mytext = <div className='textbox'> <p></p>
             <p></p>
             <p>You just won <span class="bold red">{this.state.reward} rubies!</span></p>
-            <p>There will <span class="bold">always</span> be <span class="bold">one planet</span> that gives you <span class="bold">more</span> rubies than the other planet.</p>
+            <p>There will <span className="bold">always</span> be <span class="bold">one planet</span></p> 
+            <p>that gives you <span className="bold">more</span> <span className="bold red">rubies</span> than the other planet.</p>
             <p>However, it won't be the same planet during the whole game!</p>
-            <p>For example, sometimes the <span class="bold blue">blue planet</span> will be better but sometimes the <span class="bold purple">purple planet</span> will be better, it's up to you to find out!</p>
+            <p>For example, sometimes the <span className="bold blue">blue planet</span> will be better</p>
+            <p>but sometimes the <span className="bold purple">purple planet</span> will be better.</p>
+            <p>It's up to you to find out!</p>
             </div>; }
 
         else if (this.state.currentInstructionText===5) {
             mytext = <div className='textbox'>
             <p></p>
-            <p><span class="bold">Attention!</span></p>
-            <p>Occasionally the space digger will break down and even though the planet has lots of rubies on it, 
+            <p><span className="bold">Attention!</span></p>
+            <p>Occasionally the space digger will break down and even though the planet has lots of <span className="bold red">rubies</span> on it, 
                you might not get that many out!</p>
-            <p>This means you will need <span class="bold">to remember</span> which planet gives you the most rubies overall.</p> 
+            <p>This means you will need <span class="bold">to remember</span></p>
+            <p>which planet gives you the most <span className="bold red">rubies</span> overall.</p> 
             </div>
         }
 
@@ -254,9 +259,8 @@ class Instructions extends React.Component {
             mytext = <div className='textbox'> <p></p>
             <p></p>
             <p>Let's do some practice!</p>
-            </div>; } 
+            </div>;} 
         
-
         return (
             <div>
             <div className="imageContainer">
