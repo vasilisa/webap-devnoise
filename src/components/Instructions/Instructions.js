@@ -25,7 +25,7 @@ class Instructions extends React.Component {
         let url    = this.props.location.search;
         let params = queryString.parse(url);
 
-        const prolific_id = (params['userid']=== undefined ? 'undefined' : params['userid']) 
+        const prolific_id = (params['USER_ID']=== undefined ? 'undefined' : params['USER_ID']) 
 
         console.log(prolific_id) 
 
@@ -53,7 +53,7 @@ class Instructions extends React.Component {
             newblock_frame : true, 
             readyToProceed: false,
             redirect: false,
-            prolific_id      : prolific_id, // this will be a individual id not prolific one  
+            prolific_id      : prolific_id, // this will be a individual USER_ID not prolific one  
             current_symbols  : current_symbols, 
             feedback         : Array(2).fill(null),
             noFeedback       : ['null', 'null'],
